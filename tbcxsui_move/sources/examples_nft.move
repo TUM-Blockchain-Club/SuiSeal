@@ -43,7 +43,23 @@ module examples_nft::devnet_nft {
 
     /// Get the NFT's `url`
     public fun url(nft: &DevNetNFT): &Url {
+        &nft.url 
+
+    }
+        
+    public fun name(nft: &DevNetNFT): &string::String {
+        &nft.name
+    }
+
+    /// Get the NFT's `description`
+    public fun description(nft: &DevNetNFT): &string::String {
+        &nft.description
+    }
+
+    /// Get the NFT's `url`
+    public fun url(nft: &DevNetNFT): &Url {
         &nft.url
+    }
     }
 
     // ===== Entrypoints =====
