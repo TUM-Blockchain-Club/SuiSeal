@@ -1,4 +1,4 @@
-module examples::devnet_nft {
+module examples_nft::devnet_nft {
     use sui::url::{Self, Url};
     use std::string;
     use sui::object::{Self, ID, UID};
@@ -43,7 +43,19 @@ module examples::devnet_nft {
 
     /// Get the NFT's `url`
     public fun url(nft: &DevNetNFT): &Url {
+        &nft.url public fun name(nft: &DevNetNFT): &string::String {
+        &nft.name
+    }
+
+    /// Get the NFT's `description`
+    public fun description(nft: &DevNetNFT): &string::String {
+        &nft.description
+    }
+
+    /// Get the NFT's `url`
+    public fun url(nft: &DevNetNFT): &Url {
         &nft.url
+    }
     }
 
     // ===== Entrypoints =====
