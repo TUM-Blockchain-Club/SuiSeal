@@ -9,3 +9,5 @@ Sui = { git = "https://github.com/MystenLabs/sui.git", subdir = "crates/sui-fram
 [addresses]
 tbcxsui_move = "0x0"
 examples_nft = "0x0"
+verificator = "0x0"
+challenge_response_kiosk = "0x0"
