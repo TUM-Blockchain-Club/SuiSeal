@@ -9,19 +9,19 @@ compiled_package_info:
     std: "0000000000000000000000000000000000000000000000000000000000000001"
     sui: "0000000000000000000000000000000000000000000000000000000000000002"
     verificator: "0000000000000000000000000000000000000000000000000000000000000000"
-  source_digest: 2E52FE1F561687035D22081AF0EA85E2E42C007A6BD0E1F2A2CE226711596623
+  source_digest: A1EC8A2C971FD9B7851B30E8751D88EC8A97202591F037046F9602F1D184D014
   build_flags:
-    dev_mode: false
-    test_mode: false
+    dev_mode: true
+    test_mode: true
     generate_docs: false
     generate_abis: false
     install_dir: ~
     force_recompilation: false
-    lock_file: "./Move.lock"
+    lock_file: ~
     additional_named_addresses: {}
     fetch_deps_only: false
     skip_fetch_latest_git_deps: false
-    default_flavor: sui
+    default_flavor: ~
     default_edition: ~
     deps_as_root: false
 dependencies:
