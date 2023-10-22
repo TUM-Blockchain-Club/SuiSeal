@@ -179,8 +179,24 @@ module challenge_response_kiosk::challenge_response_kiosk {
         kiosk::delist<T>(self,cap,id)
     }
 
-    //== unaltered kiosk functions==
+    public fun take<T: key + store>(
+        self: &mut Kiosk, cap: &KioskOwnerCap, id: ID
+    ): T {
+        //let ext_bag = kiosk_extension::storage_mut<EXT>(EXT {}, self);
+        //let id_table: &mut Table<ID, BuyerPackage> = bag::borrow_mut(ext_bag, id);
+        //let BuyerPackage {challenge:_, pk:_, coins, buyer} = table::remove(id_table, id);
+        kiosk::take<T>(self, cap, id)
+        //TODO look into
+    }
 
+    //== unaltered still good kiosk functions==
+
+    public fun close_and_withdraw(
+        self: Kiosk, cap: KioskOwnerCap, ctx: &mut TxContext
+    ): Coin<SUI> {
+        kiosk::close_and_withdraw(self, cap, ctx)
+    }
+    
     public fun set_owner(
         self: &mut Kiosk, cap: &KioskOwnerCap, ctx: &TxContext
     ) {
@@ -193,25 +209,10 @@ module challenge_response_kiosk::challenge_response_kiosk {
         kiosk::set_owner_custom(self, cap, owner)
     }
 
-    public fun list_with_purchase_cap<T: key + store>(
-        self: &mut Kiosk, cap: &KioskOwnerCap, id: ID, min_price: u64, ctx: &mut TxContext
-    ): kiosk::PurchaseCap<T> {
-        kiosk::list_with_purchase_cap<T>(self,cap,id,min_price,ctx)
-        //TODO
-    }
-
     public fun lock<T: key + store>(
         self: &mut Kiosk, cap: &KioskOwnerCap, _policy: &TransferPolicy<T>, item: T
     ) {
         kiosk::lock<T>(self, cap, _policy, item)
-    }
-    
-
-    public fun purchase_with_cap<T: key + store>(
-        self: &mut Kiosk, purchase_cap: kiosk::PurchaseCap<T>, payment: Coin<SUI>
-    ): (T, TransferRequest<T>) {
-        //TODO
-        kiosk::purchase_with_cap<T>(self, purchase_cap, payment)
     }
 
     public fun has_item(self: &Kiosk, id: ID): bool {
@@ -345,20 +346,7 @@ module challenge_response_kiosk::challenge_response_kiosk {
         kiosk::purchase_cap_min_price<T>(self)
     }
 
-    public fun close_and_withdraw(
-        self: Kiosk, cap: KioskOwnerCap, ctx: &mut TxContext
-    ): Coin<SUI> {
-        kiosk::close_and_withdraw(self, cap, ctx)
-        //TODO
-    }
-
-    public fun take<T: key + store>(
-        self: &mut Kiosk, cap: &KioskOwnerCap, id: ID
-    ): T {
-        //let ext_bag = kiosk_extension::storage_mut<EXT>(EXT {}, self);
-        kiosk::take<T>(self, cap, id)
-        //TODO look into
-    }
+    //==unaltered kiosk functions that are TODO==
 
     public fun withdraw(
         self: &mut Kiosk, cap: &KioskOwnerCap, amount: Option<u64>, ctx: &mut TxContext
@@ -370,7 +358,21 @@ module challenge_response_kiosk::challenge_response_kiosk {
     public fun return_purchase_cap<T: key + store>(
         self: &mut Kiosk, purchase_cap: kiosk::PurchaseCap<T>
     ) {
-        //TODO even owner?
+        //TODO
         kiosk::return_purchase_cap<T>(self, purchase_cap)
+    }
+
+    public fun list_with_purchase_cap<T: key + store>(
+        self: &mut Kiosk, cap: &KioskOwnerCap, id: ID, min_price: u64, ctx: &mut TxContext
+    ): kiosk::PurchaseCap<T> {
+        kiosk::list_with_purchase_cap<T>(self,cap,id,min_price,ctx)
+        //TODO
+    }
+
+    public fun purchase_with_cap<T: key + store>(
+        self: &mut Kiosk, purchase_cap: kiosk::PurchaseCap<T>, payment: Coin<SUI>
+    ): (T, TransferRequest<T>) {
+        //TODO
+        kiosk::purchase_with_cap<T>(self, purchase_cap, payment)
     }
 }
