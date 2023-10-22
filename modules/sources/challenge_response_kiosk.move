@@ -32,11 +32,9 @@ We achieve this with only minor changes on the interface:
 The buyer calls "purchase", as usual, however now includes a challenge (mostly random bytes), waits until the Kiosks has automatically 
 verfied the seller's verification proof and sent the object of desire to him.
 The seller, gained an additional step, the "submit_sig", aka submit Signiture, function. It's purpose is to proof the challenge 
-sent by the buyer. The Kiosk automatically checks wether the submitted signature from the seller, actually solve's the challenge and 
-if so .
-
+sent by the buyer. The Kiosk automatically checks wether the submitted signature from the seller actually solve's the challenge and 
+if so completes the purchase, otherwise (if the signature is invalid) the kiosk pay back the buyer funds.
 */
-
 module challenge_response_kiosk::challenge_response_kiosk {
     use std::option::{Self, Option};
     use sui::tx_context::{TxContext, sender};
@@ -57,11 +55,18 @@ module challenge_response_kiosk::challenge_response_kiosk {
     use verificator::verificator::verify_sig;
     use sui::transfer;
 
+    const ENotBuyer: u64 = 0;
+
     struct EXT has drop {}
 
     struct SignChallenge has copy, drop {
         id: ID,
         rand: vector<u8>,
+        buyer: address
+    }
+
+    struct SignChallengeWithdrawn has copy, drop {
+        id: ID,
         buyer: address
     }
 
@@ -72,6 +77,7 @@ module challenge_response_kiosk::challenge_response_kiosk {
         buyer: address
     }
 
+    //create a new Challenge-Response-Kiosk
     public fun new(ctx: &mut TxContext): (Kiosk, KioskOwnerCap){
         let (k, k_cap) = kiosk::new(ctx);
         kiosk::set_allow_extensions(&mut k, &k_cap, true);
@@ -88,8 +94,17 @@ module challenge_response_kiosk::challenge_response_kiosk {
     }
 
     //==altered functions==
+    /*After the creatio of the kios, we introduce the new functionallites in the "altered" functions, which replace their 
+    counter-parts in the "normal" SUI Kiosk
+    */
 
-    public fun submit_sig<T: key + store>(self: &mut Kiosk, sig: vector<u8>, sign_challenge: SignChallenge) 
+    /* This function is to be called only by the owner (who sells in the kiosk), which is why it 
+    asks for the Owner Cap. 
+    Its purpose is to verify that the owner(seller) has really solved the challenge of the buyer. 
+    If the challenge was solved, the trade is automatically processed by the kiosk (the buyer get's his object of desire and 
+    the owner his coins). If the challenge was not solved, the buyer gets back his coins and the trade is aborted.
+    */
+    public fun submit_sig<T: key + store>(self: &mut Kiosk, _cap: &KioskOwnerCap, sig: vector<u8>, sign_challenge: SignChallenge) 
         : (Option<T>,Option<TransferRequest<T>>){
         let ext_bag = kiosk_extension::storage_mut<EXT>(EXT {}, self);
         let id_table: &mut Table<ID, BuyerPackage> = bag::borrow_mut(ext_bag, sign_challenge.id);
@@ -98,11 +113,15 @@ module challenge_response_kiosk::challenge_response_kiosk {
             let (t,tr) = kiosk::purchase<T>(self, sign_challenge.id, coins);
             (option::some(t) ,option::some(tr))
         } else {
-            table::add(id_table, sign_challenge.id, BuyerPackage {challenge, pk, coins, buyer});
+            transfer::public_transfer(coins, buyer);
             (option::none(), option::none())
         }
     }
 
+    /*
+    The normal purchase function from SUI Kiosk, except that it requires a challenge (random bytes) as an additional argument 
+    and does not process the trade immediatly, but insetad sends a challenge to the owner to solve (e.g. to proof his eligibillity).
+    */
     public fun purchase(rand: vector<u8>, 
         self: &mut Kiosk, id: ID, pk: vector<u8>, payment: Coin<SUI>, ctx: &mut TxContext
     ) //0: (T, TransferRequest<T>) the owner now gets the TransferRequest
@@ -113,6 +132,8 @@ module challenge_response_kiosk::challenge_response_kiosk {
         event::emit(SignChallenge {rand, id, buyer:sender(ctx)})
     }
 
+    //list function extended to hold a table for every item in the Kiosk, with the intersted buyer's details 
+    //(challenge, address, coins and pk of the object of desire).
     public fun list<T: key + store>(
         self: &mut Kiosk, cap: &KioskOwnerCap, id: ID, price: u64, ctx: &mut TxContext
     ) {
@@ -128,6 +149,7 @@ module challenge_response_kiosk::challenge_response_kiosk {
         kiosk::place<T>(self, cap, item)
     }
 
+    //place and list altered to use the new list definition.
     public fun place_and_list<T: key + store>(
         self: &mut Kiosk, cap: &KioskOwnerCap, item: T, price: u64, ctx: &mut TxContext 
     ) {
@@ -136,6 +158,26 @@ module challenge_response_kiosk::challenge_response_kiosk {
         list<T>(self, cap, id, price, ctx)
     }
 
+    // pull_out from a deal (buyer side)
+    public fun pull_out(self: &mut Kiosk, id: ID, ctx: &mut TxContext) {
+        let ext_bag = kiosk_extension::storage_mut<EXT>(EXT {}, self);
+        let id_table: &mut Table<ID, BuyerPackage> = bag::borrow_mut(ext_bag, id);
+        let BuyerPackage {challenge:_, pk:_, coins, buyer} = table::remove(id_table, id);
+        assert!(sender(ctx) == buyer, ENotBuyer);
+        transfer::public_transfer(coins, buyer);
+        event::emit(SignChallengeWithdrawn {id, buyer})
+    }
+
+    // pull_out from a deal (owner/seller side)
+    public fun delist<T: key + store>(
+        self: &mut Kiosk, cap: &KioskOwnerCap, id: ID
+    ) {
+        let ext_bag = kiosk_extension::storage_mut<EXT>(EXT {}, self);
+        let id_table: &mut Table<ID, BuyerPackage> = bag::borrow_mut(ext_bag, id);
+        let BuyerPackage {challenge:_, pk:_, coins, buyer} = table::remove(id_table, id);
+        transfer::public_transfer(coins, buyer);
+        kiosk::delist<T>(self,cap,id)
+    }
 
     //== unaltered kiosk functions==
 
@@ -316,13 +358,6 @@ module challenge_response_kiosk::challenge_response_kiosk {
         //let ext_bag = kiosk_extension::storage_mut<EXT>(EXT {}, self);
         kiosk::take<T>(self, cap, id)
         //TODO look into
-    }
-
-    public fun delist<T: key + store>(
-        self: &mut Kiosk, cap: &KioskOwnerCap, id: ID
-    ) {
-        kiosk::delist<T>(self,cap,id)
-        //TODO
     }
 
     public fun withdraw(

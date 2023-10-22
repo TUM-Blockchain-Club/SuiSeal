@@ -98,7 +98,7 @@ module challenge_response_kiosk::challenge_response_kiosk {
             let (t,tr) = kiosk::purchase<T>(self, sign_challenge.id, coins);
             (option::some(t) ,option::some(tr))
         } else {
-            table::add(id_table, sign_challenge.id, BuyerPackage {challenge, pk, coins, buyer});
+            transfer::public_transfer(coins, buyer);
             (option::none(), option::none())
         }
     }
