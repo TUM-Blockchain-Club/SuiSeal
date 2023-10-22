@@ -54,6 +54,6 @@ SuiSeal is designed to combat counterfeiting in various industries, including bu
 - Luxury Accessories
 - Collectibles
 
-**Build with ❤ by**
+**Built with ❤ by**
 
 <img width="158,2" height="79,1" src="./assets/tbc-logo.png" alt="color picker" />
