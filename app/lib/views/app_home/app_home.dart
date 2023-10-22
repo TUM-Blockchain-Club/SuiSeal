@@ -6,7 +6,6 @@ import 'package:tbcxsui/views/app_home/view_home/view_shop.dart';
 import 'package:tbcxsui/views/app_home/view_sneaker_detail.dart';
 import 'package:tbcxsui/models/models.dart' as model;
 import 'package:tbcxsui/widgets/ui/ui.dart' as ui;
-import 'package:tbcxsui/widgets/app.dart';
 
 class AppHome extends StatelessWidget {
   const AppHome({super.key});
