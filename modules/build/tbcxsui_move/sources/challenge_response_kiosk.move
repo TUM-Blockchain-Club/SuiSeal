@@ -1,4 +1,39 @@
+/*
+MIT License
 
+Author Tobias Rothmann
+
+Copyright (c) 2023 TUM Blockchain Club
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
+
+/*
+SUI Kiosk allows to enforce policies on trades, we lift this mechanism up to a challenge-reponse protocol, with 
+the challenge_response_kiosk.  
+Thus enabling ownership-secure trade for protocols, that rely on verification proofs.
+We achieve this with only minor changes on the interface: 
+The buyer calls "purchase", as usual, however now includes a channel (mostly random bytes) waits until the Kiosks has automatically 
+verfied the seller's verification proof and sent the object of desire to him.
+The seller, gained an additional step, the "submit_sig", aka submit Signiture, function. It's purpose is to proof the challenge 
+sent by the buyer. The Kiosk automatically checks wether the submitted 
+*/
 
 module challenge_response_kiosk::challenge_response_kiosk {
     use std::option::{Self, Option};

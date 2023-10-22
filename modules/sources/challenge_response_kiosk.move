@@ -72,10 +72,7 @@ module challenge_response_kiosk::challenge_response_kiosk {
     public fun new(ctx: &mut TxContext): (Kiosk, KioskOwnerCap){
         let (k, k_cap) = kiosk::new(ctx);
         kiosk::set_allow_extensions(&mut k, &k_cap, true);
-        kiosk_extension::add(EXT {}, &mut k, &k_cap, 00, ctx);
-        //bag to store value pairs: <UID-object in kiosk, (coins, rand)>
-        //let ext_bag = kiosk_extension::storage_mut<EXT>(EXT {}, &mut k);
-        //let addr : address = sender(ctx);        
+        kiosk_extension::add(EXT {}, &mut k, &k_cap, 00, ctx);    
         (k,k_cap)
     }
 
@@ -95,16 +92,6 @@ module challenge_response_kiosk::challenge_response_kiosk {
         }
     }
 
-    public fun list<T: key + store>(
-        self: &mut Kiosk, cap: &KioskOwnerCap, id: ID, price: u64, ctx: &mut TxContext
-    ) {
-        kiosk::list<T>(self, cap, id, price);
-        let ext_bag = kiosk_extension::storage_mut<EXT>(EXT {}, self);
-        bag::add(ext_bag, id, table::new<ID, BuyerPackage>(ctx));
-    }
-
-    //buyer
-
     public fun purchase(rand: vector<u8>, 
         self: &mut Kiosk, id: ID, pk: vector<u8>, payment: Coin<SUI>, ctx: &mut TxContext
     ) //0: (T, TransferRequest<T>) the owner now gets the TransferRequest
@@ -115,6 +102,15 @@ module challenge_response_kiosk::challenge_response_kiosk {
         event::emit(SignChallenge {rand, id, buyer:sender(ctx)})
     }
 
+    public fun list<T: key + store>(
+        self: &mut Kiosk, cap: &KioskOwnerCap, id: ID, price: u64, ctx: &mut TxContext
+    ) {
+        kiosk::list<T>(self, cap, id, price);
+        let ext_bag = kiosk_extension::storage_mut<EXT>(EXT {}, self);
+        bag::add(ext_bag, id, table::new<ID, BuyerPackage>(ctx));
+    }
+
+    //place is unaltered
     public fun place<T: key + store>(
         self: &mut Kiosk, cap: &KioskOwnerCap, item: T
     ) {
@@ -130,30 +126,7 @@ module challenge_response_kiosk::challenge_response_kiosk {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    //other
+    //== unaltered kiosk functions==
 
     public fun set_owner(
         self: &mut Kiosk, cap: &KioskOwnerCap, ctx: &TxContext
@@ -167,16 +140,12 @@ module challenge_response_kiosk::challenge_response_kiosk {
         kiosk::set_owner_custom(self, cap, owner)
     }
 
-    
-
     public fun list_with_purchase_cap<T: key + store>(
         self: &mut Kiosk, cap: &KioskOwnerCap, id: ID, min_price: u64, ctx: &mut TxContext
     ): kiosk::PurchaseCap<T> {
         kiosk::list_with_purchase_cap<T>(self,cap,id,min_price,ctx)
         //TODO
     }
-
-    
 
     public fun lock<T: key + store>(
         self: &mut Kiosk, cap: &KioskOwnerCap, _policy: &TransferPolicy<T>, item: T
@@ -191,10 +160,6 @@ module challenge_response_kiosk::challenge_response_kiosk {
         //TODO
         kiosk::purchase_with_cap<T>(self, purchase_cap, payment)
     }
-
-    // ------------------------------------------------------------
-    // FIELD ACCESS
-    // ------------------------------------------------------------
 
     public fun has_item(self: &Kiosk, id: ID): bool {
         kiosk::has_item(self, id)
@@ -327,7 +292,6 @@ module challenge_response_kiosk::challenge_response_kiosk {
         kiosk::purchase_cap_min_price<T>(self)
     }
 
-    //line 67: 
     public fun close_and_withdraw(
         self: Kiosk, cap: KioskOwnerCap, ctx: &mut TxContext
     ): Coin<SUI> {
