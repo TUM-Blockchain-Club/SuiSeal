@@ -18,7 +18,7 @@
 
 Counterfeit products have become increasingly sophisticated, making it challenging for both professionals and manufacturers to distinguish authentic items from their counterfeit counterparts. To combat this growing issue, we introduce SuiSeal, a revolutionary mobile application designed to empower buyers and sellers by enabling them to verify the authenticity of their items with ease.
 
-Our solution leverages NFC (Near Field Communication) technology and the Sui blockchain network to provide a secure and foolproof method for authenticating items. Through SuiSeal, we aim to ensure trust and transparency in transactions involving high-value and frequently counterfeited goods.
+Our solution leverages cutting-edge NFC (Near Field Communication) technology and blockchain to provide a secure and foolproof method for authenticating items. Through SuiSeal, we aim to ensure trust and transparency in transactions involving high-value and frequently counterfeited goods.
 
 ## Problem Statement
 
@@ -30,7 +30,12 @@ SuiSeal is a mobile application that addresses the pressing issue of counterfeit
 
 1. *NFC Tag Scanning:* SuiSeal allows users to verify the authenticity of items by scanning NFC tags embedded within them. Manufacturers register these NFC tags on the Sui Blockchain, ensuring their legitimacy. When a user scans the NFC tag using the SuiSeal app, the authenticity of the item is instantly verified.
 
-2. *Sui Kiosk Functionality:* We have integrated the Sui Kiosk functionality to create a secure and trustworthy peer-to-peer (P2P) marketplace. In this marketplace, all parties involved can prove or check the authenticity of the offered goods, instilling confidence in the transaction process.
+2. *Sui Kiosk Functionality:* 
+We've taken the Sui Kiosk to the next level by introducing a groundbreaking extension that adds the functionality of Challenge Responses. This innovative feature enables users to send challenges to the seller as part of the authentication process. Here's how it works:
+Challenge Requests: Suppose you want to buy an item from a seller. You can send a challenge (containing a random seed) to the seller. This challenge serves as an additional layer of security and verification in the transaction process.
+Authentication Process: The seller, upon receiving your challenge request, must scan the item's NFC tag using the SuiSeal app to verify its authenticity. Only if the authenticity is confirmed, will the transaction proceed.
+This Challenge Response Kiosk isn't limited to NFTs; it can be used for all kinds of Sui objects, making it a versatile solution for a wide range of scenarios. With this added functionality, you can do everything you could in the original kiosk, now with the enhanced security and convenience of challenge responses. It's a game-changer in ensuring the authenticity of items and building trust in your transactions.
+
 
 <img style="width: 195px; height: 422px;" src="./assets/demo.gif" />
 
