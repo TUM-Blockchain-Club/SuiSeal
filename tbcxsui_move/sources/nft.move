@@ -107,7 +107,7 @@ module nft::nft_test {
         // nft mint
         let scenario = ts::begin(addr1);
         {
-            nft::mint(b"TBC NFT", b"This is my NFT on the SUI blockchain", b"https://www.tum-blockchain.com", ts::ctx(&mut scenario))
+            nft::mint(b"TBC NFT", b"Hello from TUM Blockchain Club", b"https://uploads-ssl.webflow.com/631ad94cbdadc40fe03d6458/631adb8b5ea5315dda0a79d4_tum_blockchain_logo_black.png", ts::ctx(&mut scenario))
         };
 
         // nft transfer from @0xA to @0xB
@@ -121,8 +121,8 @@ module nft::nft_test {
         ts::next_tx(&mut scenario, addr2); 
         {
             let nft = ts::take_from_sender<NFT>(&mut scenario);
-            nft::update_description(&mut nft, b"This is our NFT on the SUI blockchain") ;
-            assert!(*string::bytes(nft::description(&nft)) == b"This is our NFT on the SUI blockchain", 0);
+            nft::update_description(&mut nft, b"Servus from TUM Blockchain Club") ;
+            assert!(*string::bytes(nft::description(&nft)) == b"Servus from TUM Blockchain Club", 0);
             ts::return_to_sender(&mut scenario, nft);
         };
 
