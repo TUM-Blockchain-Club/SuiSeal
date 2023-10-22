@@ -2,6 +2,14 @@ import 'package:tbcxsui/models/models.dart' as model;
 
 List<model.Sneaker> dataSneakers = [
   model.Sneaker(
+    name: 'Jordan 1 Retro High Off-White Chicago',
+    brand: 'Nike',
+    imagePath: 'assets/sneakers/jordan-1-retro-high-off-white-chicago.png',
+    description: 'The Off-White x Air Jordan 1 Retro High OG was one of the most highly anticipated footwear collaborations of 2017. It marked the first time Virgil Abloh, founder of the Milan-based fashion label and Jordan Brand had teamed up. Nicknamed "The 10" edition, this pair comes in the original Chicago-themed white, black and varsity red colorway. Featuring a white, red and black-based deconstructed leather upper with a Swooshless medial side branded with "Off-White for Nike Air Jordan 1, Beaverton, Oregon, USA © 1985." Other details include: floppy ankle collars with hidden "85" written on the inside, an oversized off-centered Swoosh on the lateral sides, "Air" written on the midsole and the word "Shoelaces" on the laces with no branding on the tongue.',
+    releaseDate: DateTime(2017, 10, 1),
+    price: 190.0,
+  ),
+  model.Sneaker(
     name: 'Jordan 11 Retro Concord',
     brand: 'Nike',
     imagePath: 'assets/sneakers/jordan-11-retro-concord.png',
@@ -24,14 +32,6 @@ List<model.Sneaker> dataSneakers = [
     description: 'The Air Jordan 1 Travis Scott features a white leather upper with Mocha suede overlays and black leather reversed Swooshes. Hits of red on the tongue slightly contrast the design\'s earth tones. On the heel, a debossed Cactus Jack logo adds a custom feel. From there, a yellowed midsole and matching Mocha outsole complete the design.',
     releaseDate: DateTime(2019, 10, 1),
     price: 175.0,
-  ),
-  model.Sneaker(
-    name: 'Jordan 1 Retro High Off-White Chicago',
-    brand: 'Nike',
-    imagePath: 'assets/sneakers/jordan-1-retro-high-off-white-chicago.png',
-    description: 'The Off-White x Air Jordan 1 Retro High OG was one of the most highly anticipated footwear collaborations of 2017. It marked the first time Virgil Abloh, founder of the Milan-based fashion label and Jordan Brand had teamed up. Nicknamed "The 10" edition, this pair comes in the original Chicago-themed white, black and varsity red colorway. Featuring a white, red and black-based deconstructed leather upper with a Swooshless medial side branded with "Off-White for Nike Air Jordan 1, Beaverton, Oregon, USA © 1985." Other details include: floppy ankle collars with hidden "85" written on the inside, an oversized off-centered Swoosh on the lateral sides, "Air" written on the midsole and the word "Shoelaces" on the laces with no branding on the tongue.',
-    releaseDate: DateTime(2017, 10, 1),
-    price: 190.0,
   ),
   model.Sneaker(
     name: 'Adidas Yeezy Boost 750 Light Grey Glow In the Dark',
@@ -99,30 +99,53 @@ List<model.Sneaker> dataSneakers = [
   ),
 ];
 
-
-// List<model.Sneaker> dataSneakers = [
-//   model.Sneaker(
-//     name: 'Nike Air Max 90',
-//     brand: 'Nike',
-//     imagePath: 'assets/sneakers/https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/f9e940d3-2192-434e-a017-072303ce2f14/air-max-90-shoes-DKrDC2.png',
-//     description: 'The Nike Air Max 90 stays true to its OG running roots with the iconic Waffle outsole, stitched overlays and classic TPU accents. Fresh colours give a modern look while Max Air cushioning adds comfort to your journey.',
-//     releaseDate: DateTime(2021, 10, 1),
-//     price: 120.0,
-//   ),
-//   model.Sneaker(
-//     name: 'Nike Air Max 95',
-//     brand: 'Nike',
-//     imagePath: 'assets/sneakers/https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/01490d04-2d96-4224-9655-a17c427569c4/air-max-95-shoes-3WBGqS.png',
-//     description: 'The Nike Air Max 95 made its mark as the first shoe to include visible Nike Air cushioning in the forefoot. The Nike Air Max 95 OG Shoe energises the iconic design with updated materials in a variety of textures and accents.',
-//     releaseDate: DateTime(2021, 10, 1),
-//     price: 170.0,
-//   ),
-//   model.Sneaker(
-//     name: 'Nike Air Max 97',
-//     brand: 'Nike',
-//     imagePath: 'assets/sneakers/https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/01490d04-2d96-4224-9655-a17c427569c4/air-max-95-shoes-3WBGqS.png',
-//     description: 'The Nike Air Max 97 keeps a sneaker icon going strong with the same design details that made it famous: water-ripple lines, reflective piping and full-length Max Air cushioning.',
-//     releaseDate: DateTime(2021, 10, 1),
-//     price: 180.0,
-//   ),
-// ];
+List<model.SneakerKeypair> dataSneakerKeypairs = [
+  const model.SneakerKeypair(
+    privateKey: "BED693796474EA720D7B9EC022314681C01D3BA7239D262B22E1F1AD7C7948EC",
+    publicKey: "437819C4D8052263CB17B7A3C942FDCACF1DE231AAE44589DC52A59F7E290DCB",
+  ),
+  const model.SneakerKeypair(
+    privateKey: "2A27D0C4D7155EC5E4168FF98EEF575740B68940F5583F5F17B6EC05EE4EC2CE",
+    publicKey: "E7E0BB7BE5683FBFE90B5C978DF63A14C87BCE97892C099DBB06A51BB1A7BD9F",
+  ),
+  const model.SneakerKeypair(
+    privateKey: "1C2A62DEC49812BA9618B5F6857A91609E1C1FBC870D28BFF777C1BB78234DD9",
+    publicKey: "0425BFECBABEB7997CDC3B0B0036E3C544E3A002E9E3DB7F9A22CFF97B8802D4",
+  ),
+  const model.SneakerKeypair(
+    privateKey: "67FCE8246C9AB0EE2A58833CAC8CE5F69780EEF6E063A7C32A872A18369EB79B",
+    publicKey: "485E820219F87D558FADFFD12520D16231A1FB7F5F0E7C397F7CBBE9A598E088",
+  ),
+  const model.SneakerKeypair(
+    privateKey: "E164776139E77F274FFD8B077D8619EA249090575020E4E77989EEC5490FBBA1",
+    publicKey: "89421EFE4AA473CCBC2DDE138513930D55A7687D226D743CD7E3395EB1428B05",
+  ),
+  const model.SneakerKeypair(
+    privateKey: "2BCEB4AFDDECC1114C5758B1EC304A990491E13553E5B1786E1806F54F468938",
+    publicKey: "A9216D0F691C162F438C97DD5DCD30161CB6D46CC5DA0DA4525905370114ACC7",
+  ),
+  const model.SneakerKeypair(
+    privateKey: "5879B0E86B5EAEF9FEFE6D6D6E357561FC90C737E14A59979318B19927AEA314",
+    publicKey: "47755D7530E814F6D0DE9F59C9EF9D901BC8FF102B9C7AA9C684B0EEA53290FD",
+  ),
+  const model.SneakerKeypair(
+    privateKey: "BABFFC40D57C270046C60AC3F51281630CBAA4770DA52A2517EECD9F5318C69A",
+    publicKey: "0598BDF911D204FA05BEC8E0D6E762F55154DFEB3FFEE2C828849A6197350160",
+  ),
+  const model.SneakerKeypair(
+    privateKey: "895253BB68BAF2CE2454706DF0FBF9DF204C7A362259DE4EA4485D28733011BD",
+    publicKey: "B70480AC85D82CB6BCE492A5F16DD0D78EF0CADED3C7EA3D573CA837B5119CA9",
+  ),
+  const model.SneakerKeypair(
+    privateKey: "2938068E3CB081BB79F2858EB810E8B16C1EB5255281CF06028C647641F266D8",
+    publicKey: "80B655CA4D3BEEC1332C3F0C2FDC55BCCF97B0671BFA3D791D967102962C2235",
+  ),
+  const model.SneakerKeypair(
+    privateKey: "B13EB9D73E9456A94CD4DB629E8FCA8E23B65C210153096D9C4623A90B65CC14",
+    publicKey: "6D353E37D076F5B6B8FB2B486AAEAF3C473A9DB74DA5930187731F23BB257EAF",
+  ),
+  const model.SneakerKeypair(
+    privateKey: "DD7799111B31F893E75F77EDD9DE667F6FE2B3060B254D7FF4DD56E478D75D6B",
+    publicKey: "20C48799E9A170C82AA0C199C11CB60460D4E71084C1AC9989B1C1A4B34A1DFD",
+  ),
+];
