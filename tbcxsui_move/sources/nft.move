@@ -86,6 +86,10 @@ module nft::nft {
     public fun url(nft: &NFT): &Url {
         &nft.url
     }
+
+    public fun id(nft: &NFT): &UID {
+        &nft.id
+    }
 }
 
 #[test_only]
