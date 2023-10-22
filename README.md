@@ -32,7 +32,7 @@ SuiSeal is a mobile application that addresses the pressing issue of counterfeit
 
 2. *Sui Kiosk Functionality:* We have integrated the Sui Kiosk functionality to create a secure and trustworthy peer-to-peer (P2P) marketplace. In this marketplace, all parties involved can prove or check the authenticity of the offered goods, instilling confidence in the transaction process.
 
-![Demo video](./assets/demo.MP4)
+<img width="1022,4" height="471,6" src="./assets/demo.gif" alt="color picker" />
 
 ## Key Features
 
@@ -54,4 +54,6 @@ SuiSeal is designed to combat counterfeiting in various industries, including bu
 - Luxury Accessories
 - Collectibles
 
-![TUM Blockchain Club logo](./assets/tbc-logo.png)
+**Built with ❤ by**
+
+<img width="158,2" height="79,1" src="./assets/tbc-logo.png" alt="color picker" />
