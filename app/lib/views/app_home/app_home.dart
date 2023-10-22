@@ -2,7 +2,6 @@ import 'package:flutter/material.dart' hide BottomNavigationBar, BottomNavigatio
 import 'package:tbcxsui/views/app_home/view_authenticate.dart';
 import 'package:tbcxsui/views/app_home/view_authenticate_result.dart';
 import 'package:tbcxsui/views/app_home/view_home/view_home.dart';
-import 'package:tbcxsui/views/app_home/view_home/view_shop.dart';
 import 'package:tbcxsui/views/app_home/view_sneaker_detail.dart';
 import 'package:tbcxsui/models/models.dart' as model;
 import 'package:tbcxsui/widgets/ui/ui.dart' as ui;
@@ -33,7 +32,7 @@ class AppHome extends StatelessWidget {
             return MaterialPageRoute(settings: const RouteSettings(name: '/authenticate/result-binary'), builder: (context) => ViewAuthenticateResultBinary(success: success));
           default:
             // by default we return the home page
-            return MaterialPageRoute(builder: (context) => const ViewHome());
+            return MaterialPageRoute(settings: const RouteSettings(name: '/'), builder: (context) => const ViewHome());
         }
       },
     );
