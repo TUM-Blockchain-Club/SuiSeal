@@ -29,10 +29,12 @@ SUI Kiosk allows to enforce policies on trades, we lift this mechanism up to a c
 the challenge_response_kiosk.  
 Thus enabling ownership-secure trade for protocols, that rely on verification proofs.
 We achieve this with only minor changes on the interface: 
-The buyer calls "purchase", as usual, however now includes a channel (mostly random bytes) waits until the Kiosks has automatically 
+The buyer calls "purchase", as usual, however now includes a challenge (mostly random bytes), waits until the Kiosks has automatically 
 verfied the seller's verification proof and sent the object of desire to him.
 The seller, gained an additional step, the "submit_sig", aka submit Signiture, function. It's purpose is to proof the challenge 
-sent by the buyer. The Kiosk automatically checks wether the submitted 
+sent by the buyer. The Kiosk automatically checks wether the submitted signature from the seller, actually solve's the challenge and 
+if so .
+
 */
 
 module challenge_response_kiosk::challenge_response_kiosk {
@@ -53,6 +55,7 @@ module challenge_response_kiosk::challenge_response_kiosk {
     use sui::sui::SUI;
     use sui::event;
     use verificator::verificator::verify_sig;
+    use sui::transfer;
 
     struct EXT has drop {}
 
@@ -74,6 +77,14 @@ module challenge_response_kiosk::challenge_response_kiosk {
         kiosk::set_allow_extensions(&mut k, &k_cap, true);
         kiosk_extension::add(EXT {}, &mut k, &k_cap, 00, ctx);    
         (k,k_cap)
+    }
+
+    fun init(ctx : &mut TxContext) {
+        let (k, k_cap) = kiosk::new(ctx);
+        kiosk::set_allow_extensions(&mut k, &k_cap, true);
+        kiosk_extension::add(EXT {}, &mut k, &k_cap, 00, ctx);
+        transfer::public_transfer(k, sender(ctx));
+        transfer::public_transfer(k_cap, sender(ctx))
     }
 
     //==altered functions==

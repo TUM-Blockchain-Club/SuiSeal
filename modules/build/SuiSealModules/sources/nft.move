@@ -27,6 +27,8 @@ module nft::nft {
     use sui::event;
     use sui::transfer;
     use sui::tx_context::{Self, TxContext};
+    use std::vector;
+
 
     // todo access control!
     struct NFT has key, store {
@@ -34,6 +36,7 @@ module nft::nft {
         name: string::String,
         description: string::String,
         url: Url,
+        pk: vector<u8>,
     }
 
     struct NFTMintEvent has copy, drop {
@@ -46,13 +49,15 @@ module nft::nft {
         name: vector<u8>,
         description: vector<u8>,
         url: vector<u8>,
+        pk : vector<u8>,
         ctx: &mut TxContext
     ) {
         let nft = NFT {
             id: object::new(ctx),
             name: string::utf8(name),
             description: string::utf8(description),
-            url: url::new_unsafe_from_bytes(url)
+            url: url::new_unsafe_from_bytes(url), 
+            pk
         };
         let sender = tx_context::sender(ctx);
         event::emit(NFTMintEvent {
@@ -71,7 +76,7 @@ module nft::nft {
     }
 
     public entry fun burn(nft: NFT) {
-        let NFT { id, name: _, description: _, url: _ } = nft;
+        let NFT { id, name: _, description: _, url: _ ,pk: _} = nft;
         object::delete(id)
     }
 
@@ -90,6 +95,10 @@ module nft::nft {
     public fun id(nft: &NFT): &UID {
         &nft.id
     }
+
+    public fun pk(nft: &NFT): &vector<u8> {
+        &nft.pk
+    }
 }
 
 #[test_only]
@@ -98,6 +107,7 @@ module nft::nft_test {
     use sui::test_scenario as ts;
     use sui::transfer;
     use std::string;
+    use std::vector;
 
     #[test]
     fun mint_transfer_update() {
@@ -107,7 +117,7 @@ module nft::nft_test {
         // nft mint
         let scenario = ts::begin(addr1);
         {
-            nft::mint(b"TBC NFT", b"Hello from TUM Blockchain Club", b"https://uploads-ssl.webflow.com/631ad94cbdadc40fe03d6458/631adb8b5ea5315dda0a79d4_tum_blockchain_logo_black.png", ts::ctx(&mut scenario))
+            nft::mint(b"TBC NFT", b"Hello from TUM Blockchain Club", b"https://uploads-ssl.webflow.com/631ad94cbdadc40fe03d6458/631adb8b5ea5315dda0a79d4_tum_blockchain_logo_black.png", vector::empty<u8>(), ts::ctx(&mut scenario))
         };
 
         // nft transfer from @0xA to @0xB
